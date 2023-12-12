@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app_iub/task.dart';
-
 import 'add_task_screen.dart';
 
 class TasksScreen extends StatefulWidget {
@@ -11,7 +10,11 @@ class TasksScreen extends StatefulWidget {
 }
 
 class _TasksScreenState extends State<TasksScreen> {
-  List<Task> _tasks = [];
+  final List<Task> _tasks = [
+    Task(name: "Complete project A"),
+    Task(name: "Read a book", isDone: true),
+    Task(name: "Exercise"),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -54,17 +57,17 @@ class _TasksScreenState extends State<TasksScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
                 top: 60.0, left: 30.0, right: 30.0, bottom: 30.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CircleAvatar(
+                const CircleAvatar(
                   radius: 30,
                   backgroundImage: AssetImage("assets/images/iub_logo.png"),
                 ),
                 SizedBox(height: 10),
-                Text(
+                const Text(
                   "Todo App IUB",
                   style: TextStyle(
                     color: Colors.white,
@@ -72,15 +75,15 @@ class _TasksScreenState extends State<TasksScreen> {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                Text(
+                const Text(
                   "www.iub.edu.bd",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 17.0,
                   ),
                 ),
-                SizedBox(height: 24),
-                Text(
+                const SizedBox(height: 24),
+                const Text(
                   "My Tasks",
                   style: TextStyle(
                       color: Colors.white,
@@ -89,7 +92,7 @@ class _TasksScreenState extends State<TasksScreen> {
                 ),
                 Text(
                   "${_tasks.length} Tasks",
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,
                   ),
@@ -99,33 +102,33 @@ class _TasksScreenState extends State<TasksScreen> {
           ),
           Expanded(
             child: Container(
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                 horizontal: 20.0,
               ),
-              // color: Colors.white,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20.0),
                   topRight: Radius.circular(20.0),
                 ),
               ),
-              child: Column(
-                children: [
-                  //ListView.Builder
-                  for (var task in _tasks)
-                    ListTile(
-                      title: Text(task.name),
-                      trailing: Checkbox(
-                        value: task.isDone,
-                        onChanged: (value) {
-                          setState(() {
-                            task.isDone = value!;
-                          });
-                        },
-                      ),
+              child: ListView.builder(
+                itemCount: _tasks.length,
+                itemBuilder: (context, index) {
+                  final task = _tasks[index];
+
+                  return ListTile(
+                    title: Text(task.name),
+                    trailing: Checkbox(
+                      value: task.isDone,
+                      onChanged: (value) {
+                        setState(() {
+                          task.isDone = value!;
+                        });
+                      },
                     ),
-                ],
+                  );
+                },
               ),
             ),
           )
